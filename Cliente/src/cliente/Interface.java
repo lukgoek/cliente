@@ -5,6 +5,7 @@
  */
 package cliente;
 
+import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class Interface extends javax.swing.JFrame {
         initComponents();
     }
     
+    
     public void conexion(int puerto, String host){
         /* host=ip puerto=puerto al que se conectara  */
         try {
@@ -51,6 +53,7 @@ public class Interface extends javax.swing.JFrame {
         
         
     }
+    
     
     public void recibeDatos(){
         
@@ -66,13 +69,14 @@ public class Interface extends javax.swing.JFrame {
     }
     
     
+    
     public void enviaDatos(){
         
         try {
             outputStream = socket.getOutputStream();
             salidaDatos = new DataOutputStream(outputStream);
             
-            salidaDatos.writeUTF("Lugoe was Here!");
+            salidaDatos.writeUTF(txtMsg.getText());
             salidaDatos.flush();
             
             
@@ -101,12 +105,24 @@ public class Interface extends javax.swing.JFrame {
 
         txtAreaMsg.setColumns(20);
         txtAreaMsg.setRows(5);
+        txtAreaMsg.setFocusable(false);
         jScrollPane1.setViewportView(txtAreaMsg);
 
         btnEnviar.setText("Send");
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarActionPerformed(evt);
+            }
+        });
+
+        txtMsg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMsgActionPerformed(evt);
+            }
+        });
+        txtMsg.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMsgKeyPressed(evt);
             }
         });
 
@@ -123,11 +139,12 @@ public class Interface extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtMsg)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51))
+                        .addGap(78, 78, 78))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51))))
             .addComponent(lTittle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -137,13 +154,14 @@ public class Interface extends javax.swing.JFrame {
                 .addComponent(lTittle)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(txtMsg))
-                    .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addComponent(txtMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -151,7 +169,29 @@ public class Interface extends javax.swing.JFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         enviaDatos();
+        
+        if(txtAreaMsg.getText().equals("")){
+            txtAreaMsg.setText(txtMsg.getText());
+            txtMsg.setText("");
+        }else{
+            txtAreaMsg.append("\n"+txtMsg.getText());
+            txtMsg.setText("");
+        
+        }
     }//GEN-LAST:event_btnEnviarActionPerformed
+
+    private void txtMsgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMsgActionPerformed
+        
+        
+    }//GEN-LAST:event_txtMsgActionPerformed
+
+    private void txtMsgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMsgKeyPressed
+        //System.out.println(KeyEvent.VK_ENTER);
+        //System.out.println(evt.getKeyCode());
+        if(KeyEvent.VK_ENTER == evt.getKeyCode()){
+            btnEnviar.doClick();
+        }
+    }//GEN-LAST:event_txtMsgKeyPressed
 
     /**
      * @param args the command line arguments
