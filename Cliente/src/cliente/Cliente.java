@@ -7,7 +7,7 @@ package cliente;
 
 /**
  *
- * @author fimaz
+ * @author humberto_lugo
  */
 public class Cliente {
 
@@ -15,9 +15,16 @@ public class Cliente {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        String dirIp="127.0.0.1";
+                
         Interface obj = new Interface();
         obj.setVisible(true);
-        obj.conexion(5555, "192.10.10.115");
+        obj.conexion(5555, dirIp);
+        
+        Interface llamar = new Interface();
+        llamar.setVisible(true);
+        llamar.conexion(5555, dirIp);
     }
     
 }
