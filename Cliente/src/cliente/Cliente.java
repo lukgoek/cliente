@@ -17,7 +17,7 @@ public class Cliente {
     public static void main(String[] args) {
         Interface obj = new Interface();
         obj.setVisible(true);
-        obj.conexion(5555, "192.10.10.115");
+        obj.conexion(5555, "127.0.0.1");
     }
     
 }
