@@ -77,7 +77,7 @@ public class Interface extends javax.swing.JFrame implements Runnable{
     
     
     
-    public void enviaDatos(){
+    public void enviaDatos(String nickname){
         
         try {
             outputStream = socket.getOutputStream();
@@ -108,6 +108,7 @@ public class Interface extends javax.swing.JFrame implements Runnable{
         txtMsg = new javax.swing.JTextField();
         lTittle = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        txtNickName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,6 +146,8 @@ public class Interface extends javax.swing.JFrame implements Runnable{
             }
         });
 
+        txtNickName.setText("Humberto");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,17 +166,23 @@ public class Interface extends javax.swing.JFrame implements Runnable{
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51))))
             .addComponent(lTittle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(44, 44, 44)
+                .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
                 .addComponent(lTittle)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
@@ -187,9 +196,9 @@ public class Interface extends javax.swing.JFrame implements Runnable{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+       String nickname=txtNickName.getText();
        
-     
-        enviaDatos();
+        enviaDatos(nickname);
         
         if(txtAreaMsg.getText().equals("")){
             txtAreaMsg.setText(txtMsg.getText());
@@ -263,6 +272,7 @@ public class Interface extends javax.swing.JFrame implements Runnable{
     private javax.swing.JLabel lTittle;
     private javax.swing.JTextArea txtAreaMsg;
     private javax.swing.JTextField txtMsg;
+    private javax.swing.JTextField txtNickName;
     // End of variables declaration//GEN-END:variables
 
     @Override
