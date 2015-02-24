@@ -22,9 +22,9 @@ public class Cliente {
         obj.setVisible(true);
         obj.conexion(5555, dirIp);
         
-      /* InterfaceTwo llamar = new InterfaceTwo();
+      InterfaceTwo llamar = new InterfaceTwo();
         llamar.setVisible(true);
-        llamar.conexion(5555, dirIp);*/
+        llamar.conexion(5555, dirIp);
     }
     
 }

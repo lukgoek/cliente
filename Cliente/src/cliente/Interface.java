@@ -35,7 +35,6 @@ public class Interface extends javax.swing.JFrame{
     private DataInputStream entradaDatos;
     private DataOutputStream salidaDatos;
     
-    Thread recibe;
     
     String comando="", ejecutar ="";
     boolean envioNickname = false;
@@ -43,20 +42,7 @@ public class Interface extends javax.swing.JFrame{
     public Interface() {
         initComponents();
         
-        System.out.println(inputStream);
         
-        Thread hiloServer = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(true){
-                    recibeDatos();
-                    
-                    
-                }
-                
-            }
-        });
-        hiloServer.start();   
          
       
     }
@@ -68,6 +54,7 @@ public class Interface extends javax.swing.JFrame{
         /* host=ip puerto=puerto al que se conectara  */
         try {
             socket = new Socket(host, puerto);
+            startThread();
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -108,6 +95,22 @@ public class Interface extends javax.swing.JFrame{
         
     }
    
+    public void startThread(){
+        System.out.println(inputStream);
+        
+        Thread hiloServer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    recibeDatos();
+                    
+                    
+                }
+                
+            }
+        });
+        hiloServer.start();   
+    }
     
     
     
