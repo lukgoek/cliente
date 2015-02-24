@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author Humberto Lugo Aguilar
  */
-public class Interface extends javax.swing.JFrame implements Runnable{
+public class Interface extends javax.swing.JFrame{
     
     //Un socket es la combinacion de una dir ip con un puerto.
     private Socket socket;
@@ -37,14 +37,28 @@ public class Interface extends javax.swing.JFrame implements Runnable{
     
     Thread recibe;
     
+    String comando="", ejecutar ="";
+    boolean envioNickname = false;
     
     public Interface() {
         initComponents();
         
         System.out.println(inputStream);
+        
+        Thread hiloServer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    recibeDatos();
+                    
+                    
+                }
+                
+            }
+        });
+        hiloServer.start();   
          
-        recibe = new Thread(this);
-        recibe.start();
+      
     }
     
    
@@ -77,15 +91,15 @@ public class Interface extends javax.swing.JFrame implements Runnable{
     
     
     
-    public void enviaDatos(String nickname){
+    public void enviaDatos(){
         
         try {
             outputStream = socket.getOutputStream();
             salidaDatos = new DataOutputStream(outputStream);
             
-            salidaDatos.writeUTF("msg/"+txtMsg.getText());
+            salidaDatos.writeUTF(comando+"/"+ejecutar);
             salidaDatos.flush();
-            
+             System.out.println("Se envio esto: "+comando+"/"+ejecutar);
             
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,9 +210,20 @@ public class Interface extends javax.swing.JFrame implements Runnable{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-       String nickname=txtNickName.getText();
+      
+      
+       if(envioNickname == false){
+           this.comando = "nick";
+           this.ejecutar = txtNickName.getText();
+           enviaDatos();
+           
+           envioNickname = true;
+       }
        
-        enviaDatos(nickname);
+       this.comando="msg";
+       
+       this.ejecutar = txtMsg.getText();
+        enviaDatos();
         
         if(txtAreaMsg.getText().equals("")){
             txtAreaMsg.setText(txtMsg.getText());
@@ -275,17 +300,7 @@ public class Interface extends javax.swing.JFrame implements Runnable{
     private javax.swing.JTextField txtNickName;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void run() {
-        while(true){
-        if(inputStream != null){
-            System.out.println(inputStream);
-            recibeDatos();
-            inputStream =null;
-        }
-        
-    }
-    }
+    
 
     
 }
