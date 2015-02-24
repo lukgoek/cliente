@@ -16,15 +16,14 @@ public class Cliente {
      */
     public static void main(String[] args) {
         
-        String dirIp = "127.0.0.1";
+                NicknameMenu obj1 = new NicknameMenu();
+                obj1.setVisible(true);
                 
-        Interface obj = new Interface();
-        obj.setVisible(true);
-        obj.conexion(5555, dirIp);
-        
-      InterfaceTwo llamar = new InterfaceTwo();
-        llamar.setVisible(true);
-        llamar.conexion(5555, dirIp);
+                NicknameMenu obj2 = new NicknameMenu();
+                obj2.setVisible(true);
+                
+                NicknameMenu obj3 = new NicknameMenu();
+                obj3.setVisible(true);
     }
     
 }

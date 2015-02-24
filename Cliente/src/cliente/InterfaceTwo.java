@@ -37,7 +37,7 @@ public class InterfaceTwo extends javax.swing.JFrame {
     private DataInputStream entradaDatos;
     private DataOutputStream salidaDatos;
     
-    String comando="", ejecutar ="";
+    String comando="", ejecutar ="", nickname ="";
     boolean envioNickname = false;
     
     
@@ -51,10 +51,11 @@ public class InterfaceTwo extends javax.swing.JFrame {
     
     
     
-    public void conexion(int puerto, String host){
+    public void conexion(int puerto, String host, String nickname){
         /* host=ip puerto=puerto al que se conectara  */
         try {
             socket = new Socket(host, puerto);
+            this.nickname = nickname;
             startThread();
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
@@ -222,7 +223,7 @@ public class InterfaceTwo extends javax.swing.JFrame {
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         if(envioNickname == false){
            this.comando = "nick";
-           this.ejecutar = txtNickName.getText();
+           this.ejecutar = this.nickname;
            enviaDatos();
            
            envioNickname = true;
@@ -234,10 +235,10 @@ public class InterfaceTwo extends javax.swing.JFrame {
         enviaDatos();
         
         if(txtAreaMsg.getText().equals("")){
-            txtAreaMsg.setText(txtMsg.getText());
+            txtAreaMsg.setText("You: "+txtMsg.getText());
             txtMsg.setText("");
         }else{
-            txtAreaMsg.append("\n"+txtMsg.getText());
+            txtAreaMsg.append("\nYou: "+txtMsg.getText());
             txtMsg.setText("");
             
         

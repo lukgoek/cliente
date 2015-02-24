@@ -36,7 +36,7 @@ public class Interface extends javax.swing.JFrame{
     private DataOutputStream salidaDatos;
     
     
-    String comando="", ejecutar ="";
+    String comando="", ejecutar ="", nickname ="";
     boolean envioNickname = false;
     
     public Interface() {
@@ -50,10 +50,12 @@ public class Interface extends javax.swing.JFrame{
    
 
     
-    public void conexion(int puerto, String host){
+    public void conexion(int puerto, String host, String nickname){
         /* host=ip puerto=puerto al que se conectara  */
         try {
             socket = new Socket(host, puerto);
+            this.nickname = nickname;
+            lbNick.setText(this.nickname);
             startThread();
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,7 +70,9 @@ public class Interface extends javax.swing.JFrame{
         try {
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
-            System.out.println("RECIBEDATOS INTERFACE"+entradaDatos.readUTF());
+            //System.out.println("RECIBEDATOS INTERFACE"+entradaDatos.readUTF());
+            
+            agregarMsg(entradaDatos.readUTF());
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -112,6 +116,20 @@ public class Interface extends javax.swing.JFrame{
         hiloServer.start();   
     }
     
+    public void agregarMsg(String msg){
+        
+        if(txtAreaMsg.getText().equals("")){
+            txtAreaMsg.setText(msg);
+            txtMsg.setText("");
+        }else{
+            txtAreaMsg.append("\n"+msg);
+            txtMsg.setText("");
+            
+        
+        }
+        
+    }
+    
     
     
     
@@ -124,8 +142,8 @@ public class Interface extends javax.swing.JFrame{
         btnEnviar = new javax.swing.JButton();
         txtMsg = new javax.swing.JTextField();
         lTittle = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        txtNickName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        lbNick = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,14 +174,7 @@ public class Interface extends javax.swing.JFrame{
         lTittle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lTittle.setText("TPA SimpleChat!");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        txtNickName.setText("Humberto");
+        jLabel1.setText("Wellcome: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,41 +182,36 @@ public class Interface extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtMsg)
-                        .addGap(12, 12, 12)
-                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51))))
+                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51))
             .addComponent(lTittle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(133, 133, 133)
-                .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
+                .addComponent(lbNick, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lbNick, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lTittle)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
 
@@ -217,7 +223,7 @@ public class Interface extends javax.swing.JFrame{
       
        if(envioNickname == false){
            this.comando = "nick";
-           this.ejecutar = txtNickName.getText();
+           this.ejecutar = this.nickname;
            enviaDatos();
            
            envioNickname = true;
@@ -229,10 +235,10 @@ public class Interface extends javax.swing.JFrame{
         enviaDatos();
         
         if(txtAreaMsg.getText().equals("")){
-            txtAreaMsg.setText(txtMsg.getText());
+            txtAreaMsg.setText("You: "+txtMsg.getText());
             txtMsg.setText("");
         }else{
-            txtAreaMsg.append("\n"+txtMsg.getText());
+            txtAreaMsg.append("\nYou: "+txtMsg.getText());
             txtMsg.setText("");
             
         
@@ -251,10 +257,6 @@ public class Interface extends javax.swing.JFrame{
             btnEnviar.doClick();
         }
     }//GEN-LAST:event_txtMsgKeyPressed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        recibeDatos();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,12 +297,12 @@ public class Interface extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lTittle;
+    private javax.swing.JLabel lbNick;
     private javax.swing.JTextArea txtAreaMsg;
     private javax.swing.JTextField txtMsg;
-    private javax.swing.JTextField txtNickName;
     // End of variables declaration//GEN-END:variables
 
     
