@@ -18,12 +18,12 @@ public class Cliente {
         
                 NicknameMenu obj1 = new NicknameMenu();
                 obj1.setVisible(true);
-                
+             /*   
                 NicknameMenu obj2 = new NicknameMenu();
                 obj2.setVisible(true);
                 
                 NicknameMenu obj3 = new NicknameMenu();
-                obj3.setVisible(true);
+                obj3.setVisible(true);*/
     }
     
 }
